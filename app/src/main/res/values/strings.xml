@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AdbOnline</string>
+    <string name="action_clear">清除</string>
+    <string name="action_connection">连接</string>
+    <string name="action_disconnection">断开连接</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cn.tobeing.adbonline.MainActivity"
+    tools:showIn="@layout/activity_main">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_above="@+id/buttonView"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/lvMessage"
+            android:divider="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/buttonView"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/etCommmand"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="请输入命令行"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/cbAuto"
+            android:text="自动"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/button_confirm"
+            android:layout_width="wrap_content"
+            android:text="确认"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

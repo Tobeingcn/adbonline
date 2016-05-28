@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/etFrom"
+        android:hint="请输入你的口令"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/etTo"
+        android:hint="请输入对方的口令"/>
+    <Button
+        android:id="@+id/btnConfirm"
+        android:text="确认"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="100dp"
+        android:layout_height="80dp" />
+    <Button
+        android:id="@+id/btnDisConnect"
+        android:text="断开连接"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="100dp"
+        android:layout_height="80dp" />
+</LinearLayout>
