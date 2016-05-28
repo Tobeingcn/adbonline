@@ -129,7 +129,7 @@ public class OnlineManager {
         if (TextUtils.isEmpty(getTo()) || TextUtils.isEmpty(getFrom())) {
             return;
         }
-        String urlPath = server+"/message.php?action=get&from=" + getTo() + "&to=" + getFrom();
+        String urlPath = server+"/message.php?action=get&from=" + toURLEncoded(getTo()) + "&to=" + toURLEncoded(getFrom());
 //        String urlPath = "http://tobeing.cn/apps/adbonline/message.php?action=get&from=" + getTo() + "&to=" + getFrom();
 
 //        Log.d("suntest","请求数据："+urlPath);
@@ -168,7 +168,7 @@ public class OnlineManager {
         if (TextUtils.isEmpty(getTo()) || TextUtils.isEmpty(getFrom())) {
             return false;
         }
-        String content="action=send&from=" + getFrom() + "&to=" + getTo()+"&message="+toURLEncoded(message);
+        String content="action=send&from=" + toURLEncoded(getFrom()) + "&to=" + toURLEncoded(getTo())+"&message="+toURLEncoded(message);
         String urlPath = server+"/message.php";
 
         Log.d("suntest","提交信息数据："+urlPath);
