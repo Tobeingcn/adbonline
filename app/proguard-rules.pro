@@ -63,7 +63,7 @@
   public static final android.os.Parcelable$Creator *;
 }
 
--keep class cn.tobeing.adbonline{
+-keep class cn.tobeing.adbonline.TestSingleton{
     *;
 }
 -keep class cn.tobeing.hook.**{
