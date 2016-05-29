@@ -56,20 +56,20 @@ public class OnlineManager {
 
     private String to;
 
-    public String getFrom() {
+    public String getUser() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setUser(String from) {
         this.from = from;
         sp.edit().putString("from",from).commit();
     }
 
-    public String getTo() {
+    public String getRemoteUser() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setRemoteUser(String to) {
         this.to = to;
         sp.edit().putString("to",to).commit();
     }
@@ -126,11 +126,11 @@ public class OnlineManager {
         mWorkHandler.obtainMessage(MSG_PUSH_MESSAGE,message).sendToTarget();
     }
     private void pullMessage() {
-        if (TextUtils.isEmpty(getTo()) || TextUtils.isEmpty(getFrom())) {
+        if (TextUtils.isEmpty(getRemoteUser()) || TextUtils.isEmpty(getUser())) {
             return;
         }
-        String urlPath = server+"/message.php?action=get&from=" + toURLEncoded(getTo()) + "&to=" + toURLEncoded(getFrom());
-//        String urlPath = "http://tobeing.cn/apps/adbonline/message.php?action=get&from=" + getTo() + "&to=" + getFrom();
+        String urlPath = server+"/message.php?action=get&from=" + toURLEncoded(getRemoteUser()) + "&to=" + toURLEncoded(getUser());
+//        String urlPath = "http://tobeing.cn/apps/adbonline/message.php?action=get&from=" + getRemoteUser() + "&to=" + getUser();
 
 //        Log.d("suntest","请求数据："+urlPath);
         try {
@@ -165,10 +165,10 @@ public class OnlineManager {
         }
     }
     private boolean pushMessage(String message){
-        if (TextUtils.isEmpty(getTo()) || TextUtils.isEmpty(getFrom())) {
+        if (TextUtils.isEmpty(getRemoteUser()) || TextUtils.isEmpty(getUser())) {
             return false;
         }
-        String content="action=send&from=" + toURLEncoded(getFrom()) + "&to=" + toURLEncoded(getTo())+"&message="+toURLEncoded(message);
+        String content="action=send&from=" + toURLEncoded(getUser()) + "&to=" + toURLEncoded(getRemoteUser())+"&message="+toURLEncoded(message);
         String urlPath = server+"/message.php";
 
         Log.d("suntest","提交信息数据："+urlPath);

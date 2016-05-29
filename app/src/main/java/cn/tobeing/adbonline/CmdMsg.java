@@ -2,10 +2,14 @@ package cn.tobeing.adbonline;
 
 import android.text.TextUtils;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by sunzheng on 16/5/26.
  */
 public class CmdMsg {
+
+    private String from;
 
     public CmdMsg(){
 
@@ -55,9 +59,11 @@ public class CmdMsg {
 
     @Override
     public String toString() {
-        return path+":"+cmd+(TextUtils.isEmpty(message)?"":"\n")+message;
+        return (TextUtils.isEmpty(from)?"":("("+from+")"))+path+":"+cmd+(TextUtils.isEmpty(message)?"":("\n"+message));
     }
-
+    public String getSendMessage(){
+        return path+":"+cmd+(TextUtils.isEmpty(message)?"":("\n"+message));
+    }
     public boolean isRemote() {
         return isRemote;
     }
@@ -65,5 +71,15 @@ public class CmdMsg {
     public CmdMsg setRemote(boolean remote) {
         isRemote = remote;
         return this;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public CmdMsg setFrom(String from) {
+        this.from = from;
+        return this;
+
     }
 }

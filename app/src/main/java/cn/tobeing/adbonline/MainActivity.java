@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -21,8 +19,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
         cbAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                btnConfirm.setEnabled(!isChecked&& TextUtils.isEmpty(etCmd.getText().toString()));
+                btnConfirm.setEnabled(!isChecked&& !TextUtils.isEmpty(etCmd.getText().toString()));
                 etCmd.setEnabled(!isChecked);
             }
         });
@@ -120,10 +116,10 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
         refresh();
     }
     private void refresh(){
-        if(TextUtils.isEmpty(OnlineManager.getInstance().getTo())||TextUtils.isEmpty(OnlineManager.getInstance().getTo())){
+        if(TextUtils.isEmpty(OnlineManager.getInstance().getRemoteUser())||TextUtils.isEmpty(OnlineManager.getInstance().getRemoteUser())){
             setTitle("未连接，请点击设置连接");
         }else{
-            setTitle(OnlineManager.getInstance().getFrom()+"正在与"+OnlineManager.getInstance().getTo()+"通讯");
+            setTitle(OnlineManager.getInstance().getUser()+"正在与"+OnlineManager.getInstance().getRemoteUser()+"通讯");
         }
     }
     @Override
@@ -151,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
             }
             break;
             case R.id.action_disconnection:{
-                OnlineManager.getInstance().setFrom("");
-                OnlineManager.getInstance().setTo("");
+                OnlineManager.getInstance().setUser("");
+                OnlineManager.getInstance().setRemoteUser("");
                 refresh();
             }
             break;
@@ -176,7 +172,9 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
                 if(msg.obj!=null){
                     List<CmdMsg> cmdMsgs=(List<CmdMsg>) msg.obj;
                     for (CmdMsg cmdMsg:cmdMsgs){
-                        OnlineManager.getInstance().sendMessage(cmdMsg.toString());
+                        if(cmdMsg.getFrom().equals(OnlineManager.getInstance().getUser())) {
+                            OnlineManager.getInstance().sendMessage(cmdMsg.getSendMessage());
+                        }
                     }
                     messageAdapter.appendMessage((List<CmdMsg>) msg.obj);
                     messageAdapter.notifyDataSetChanged();
@@ -186,9 +184,19 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
             break;
             case MSG_NEW_COMMAND:{
                 String com= (String) msg.obj;
-                etCmd.setText(com);
-                if(cbAuto.isChecked()||autoCommands.isParsable(com)){
+                if(autoCommands.isParsable(com)){
+                    CmdMsg cmdMsg=new CmdMsg();
+                    cmdMsg.setFrom(OnlineManager.getInstance().getRemoteUser());
+                    cmdMsg.setCmd(com);
+                    cmdMsg.setPath(cmdExecute.getCurrentPath());
+                    messageAdapter.appendMessage(cmdMsg);
+                    messageAdapter.notifyDataSetChanged();
+                    lvMessage.smoothScrollToPosition(messageAdapter.getCount());
+                }else if(cbAuto.isChecked()){
+                    etCmd.setText(com);
                     btnConfirm.performClick();
+                }else{
+                    etCmd.setText(com);
                 }
             }
             break;
@@ -216,7 +224,13 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
                     for (String cmd:cmds){
                         String path=cmdExecute.getCurrentPath();
                         String message=cmdExecute.run(cmd);
-                        command.add(new CmdMsg().setCmd(cmd).setMessage(message).setPath(path));
+                        CmdMsg cmdMsg=new CmdMsg().setCmd(cmd).setMessage(message).setPath(path);
+                        if(msg.arg1==1){
+                            cmdMsg.setFrom(OnlineManager.getInstance().getRemoteUser());
+                        }else{
+                            cmdMsg.setFrom(OnlineManager.getInstance().getUser());
+                        }
+                        command.add(cmdMsg);
                     }
                     UIHandler.obtainMessage(MSG_APPEND_MESSAGE,command).sendToTarget();
                 }

@@ -41,6 +41,9 @@ public class MessageAdapter extends BaseAdapter{
             msgList.addAll(msgs);
         }
     }
+    public void appendMessage(CmdMsg msg){
+        msgList.add(msg);
+    }
     public void clear(){
         msgList.clear();
     }

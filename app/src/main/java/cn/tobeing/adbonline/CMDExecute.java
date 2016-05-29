@@ -60,7 +60,8 @@ public class CMDExecute {
             }
             in.close();
         } catch (Exception ex) {
-            return ex.getMessage();
+            ex.printStackTrace();
+            return "cmd:["+cmd+"],running error,commands may not exist)";
         }
         return result;
     }
