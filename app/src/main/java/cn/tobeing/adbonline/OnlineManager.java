@@ -123,6 +123,7 @@ public class OnlineManager {
         }
     }
     public void sendMessage(String message){
+        Log.d(TAG,"sendMessage"+message);
         mWorkHandler.obtainMessage(MSG_PUSH_MESSAGE,message).sendToTarget();
     }
     private void pullMessage() {

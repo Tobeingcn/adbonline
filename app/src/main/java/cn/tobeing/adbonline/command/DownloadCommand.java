@@ -22,7 +22,7 @@ public class DownloadCommand extends AbsCommand{
     }
 
     @Override
-    public String onCommand(String[] args, CMDExecute cmdExecute) {
+    public String onCommand(String[] args) {
         if (args.length > 3 || args.length < 2) {
             return "argument is miss or to much";
         }

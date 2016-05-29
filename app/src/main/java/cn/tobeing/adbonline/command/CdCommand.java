@@ -15,7 +15,7 @@ public class CdCommand extends AbsCommand{
         return "cd";
     }
     @Override
-    public String onCommand(String[] args, CMDExecute cmdExecute) {
+    public String onCommand(String[] args) {
         if(args.length<2){
             return "argument path is neeed";
         }

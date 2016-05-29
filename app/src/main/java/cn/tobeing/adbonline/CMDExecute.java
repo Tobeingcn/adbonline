@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import cn.tobeing.adbonline.command.CdCommand;
 import cn.tobeing.adbonline.command.DownloadCommand;
+import cn.tobeing.adbonline.command.HookCommand;
 import cn.tobeing.adbonline.command.MessageCommand;
 import cn.tobeing.adbonline.command.UploadCommand;
 
@@ -24,13 +25,16 @@ public class CMDExecute {
 
     private String currentPath;
 
+    private OnCmdNewInfoListener cmdNewInfoListener;
+
     public CMDExecute(){
         processBuilder=new ProcessBuilder();
         commandParser=new CommandParser();
-        commandParser.addCommand(new CdCommand());
+        commandParser.addCommand(new CdCommand().setCMDExecute(this));
         commandParser.addCommand(new MessageCommand());
-        commandParser.addCommand(new UploadCommand());
-        commandParser.addCommand(new DownloadCommand());
+        commandParser.addCommand(new UploadCommand().setCMDExecute(this));
+        commandParser.addCommand(new DownloadCommand().setCMDExecute(this));
+        commandParser.addCommand(new HookCommand().setCMDExecute(this));
     }
 
     /**
@@ -41,7 +45,7 @@ public class CMDExecute {
      */
     public synchronized String run(String cmd){
         if(commandParser.isParsable(cmd)){
-            return commandParser.parser(cmd,this);
+            return commandParser.parser(cmd);
         }
         String result = "";
         try {
@@ -73,5 +77,22 @@ public class CMDExecute {
     }
     public void setCurrentPath(String currentPath) {
         this.currentPath = currentPath;
+    }
+
+    public OnCmdNewInfoListener getCmdNewInfoListener() {
+        return cmdNewInfoListener;
+    }
+
+    public void setCmdNewInfoListener(OnCmdNewInfoListener cmdNewInfoListener) {
+        this.cmdNewInfoListener = cmdNewInfoListener;
+    }
+
+    public static interface OnCmdNewInfoListener{
+        void onComanNewInfo(String info);
+    }
+    public void notifyNewCmdInfo(String string){
+        if(cmdNewInfoListener!=null){
+            cmdNewInfoListener.onComanNewInfo(string);
+        }
     }
 }

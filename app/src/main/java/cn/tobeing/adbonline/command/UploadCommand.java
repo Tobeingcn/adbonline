@@ -30,7 +30,7 @@ public class UploadCommand extends AbsCommand{
         return "upload";
     }
     @Override
-    public String onCommand(String[] args, CMDExecute cmdExecute) {
+    public String onCommand(String[] args) {
         if(args.length==1&&args[0].toLowerCase().equals(getCommand())){
             return "argument path is need";
         }

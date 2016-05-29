@@ -18,6 +18,11 @@ public class CommandParser implements ICommand{
     }
     private List<ICommand> commands=new ArrayList<>();
 
+    @Override
+    public ICommand setCMDExecute(CMDExecute cmdExecute) {
+        return null;
+    }
+
     public boolean isParsable(String cmd){
 
         for (ICommand iCommand:commands){
@@ -36,10 +41,10 @@ public class CommandParser implements ICommand{
         return null;
     }
     @Override
-    public String parser(String command, CMDExecute cmdExecute) {
+    public String parser(String command) {
         ICommand command1=findCommand(command);
         if(command1!=null){
-            return command1.parser(command,cmdExecute);
+            return command1.parser(command);
         }
         return null;
     }

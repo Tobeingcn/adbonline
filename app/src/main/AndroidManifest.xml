@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingActivity"></activity>
+        <service android:name="cn.tobeing.hook.HookService"/>
     </application>
 
 </manifest>

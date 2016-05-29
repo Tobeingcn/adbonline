@@ -11,6 +11,11 @@ import cn.tobeing.adbonline.CMDExecute;
  * Created by sunzheng on 16/5/28.
  */
 public class MessageCommand implements ICommand{
+    @Override
+    public ICommand setCMDExecute(CMDExecute cmdExecute) {
+        return this;
+    }
+
     public boolean isAllNumber(String path) {
         String reg = "^\\d+$";
         Pattern allNumberPattern = Pattern.compile(reg);
@@ -42,7 +47,7 @@ public class MessageCommand implements ICommand{
     }
 
     @Override
-    public String parser(String command, CMDExecute cmdExecute) {
+    public String parser(String command) {
         return "";
     }
 }

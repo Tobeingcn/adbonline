@@ -25,7 +25,7 @@ import java.util.List;
 
 import cn.tobeing.adbonline.command.MessageCommand;
 
-public class MainActivity extends AppCompatActivity implements OnlineManager.OnMessageListener{
+public class MainActivity extends AppCompatActivity implements OnlineManager.OnMessageListener,CMDExecute.OnCmdNewInfoListener {
 
     private CheckBox cbAuto;
 
@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
         setSupportActionBar(toolbar);
         autoCommands=new CommandParser();
         autoCommands.addCommand(new MessageCommand());
+        cmdExecute.setCmdNewInfoListener(this);
+
 
        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -207,6 +209,18 @@ public class MainActivity extends AppCompatActivity implements OnlineManager.OnM
     @Override
     public void onMessage(String message) {
         UIHandler.obtainMessage(MSG_NEW_COMMAND,message).sendToTarget();
+    }
+
+    @Override
+    public void onComanNewInfo(String info) {
+        CmdMsg cmdMsg=new CmdMsg();
+        cmdMsg.setFrom(OnlineManager.getInstance().getUser());
+        cmdMsg.setPath(cmdExecute.getCurrentPath());
+        cmdMsg.setCmd("");
+        cmdMsg.setMessage(info);
+        List<CmdMsg> command=new ArrayList<>();
+        command.add(cmdMsg);
+        UIHandler.obtainMessage(MSG_APPEND_MESSAGE,command).sendToTarget();
     }
 
     private class WorkHandler extends Handler {

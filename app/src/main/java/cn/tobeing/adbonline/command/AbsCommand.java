@@ -8,6 +8,9 @@ import cn.tobeing.adbonline.CMDExecute;
  * Created by sunzheng on 16/5/28.
  */
 public abstract class AbsCommand implements ICommand{
+
+    protected CMDExecute cmdExecute;
+
     public abstract String getCommand();
 
     @Override
@@ -23,9 +26,15 @@ public abstract class AbsCommand implements ICommand{
     }
 
     @Override
-    public String parser(String command, CMDExecute cmdExecute) {
-        String[] args = command.split("\\s+");
-        return onCommand(args,cmdExecute);
+    public ICommand setCMDExecute(CMDExecute cmdExecute) {
+        this.cmdExecute=cmdExecute;
+        return this;
     }
-    public abstract String onCommand(String[] args,CMDExecute cmdExecute);
+
+    @Override
+    public String parser(String command) {
+        String[] args = command.split("\\s+");
+        return onCommand(args);
+    }
+    public abstract String onCommand(String[] args);
 }

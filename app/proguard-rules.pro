@@ -62,3 +62,10 @@
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
+
+-keep class cn.tobeing.adbonline{
+    *;
+}
+-keep class cn.tobeing.hook.**{
+    *;
+}
