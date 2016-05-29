@@ -8,7 +8,7 @@ android {
         applicationId "cn.tobeing.adbonline"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1005
+        versionCode 1006
         versionName "1.0"
     }
     buildTypes {
